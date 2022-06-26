@@ -1,6 +1,11 @@
+import pygame
+
 # Simulation
 minutes = 2.0
 MAX_EXECUTION_TIME = minutes*6*1000
+FPS = 20
+FramePerSec = pygame.time.Clock()
+
 
 # MAP
 MAX_MAP_X = 1000
