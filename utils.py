@@ -39,3 +39,9 @@ def get_intersection(st1, st2):
 
     # if one of the condition above are false, the streets are not intersecting
     return None
+
+def is_between(p, a, b) -> bool:
+    if (p[0] >= a[0] and p[0] <= b[0]) or (p[0] >= b[0] and p[0] <= a[0]):
+        if (p[1] >= a[1] and p[1] <= b[1]) or (p[1] >= b[1] and p[1] <= a[1]):
+            return True
+    return False
