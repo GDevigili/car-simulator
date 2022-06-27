@@ -7,8 +7,8 @@ class Intersection:
         self.vstreet = vstreet
         self.hstreet = hstreet
 
-    def update(self, screen) -> None:
-        self.draw(screen)
+    def update(self, simulation) -> None:
+        self.draw(simulation.screen)
 
     def draw(self, screen) -> None:
         pygame.draw.circle(screen, (0, 255, 0), self.position, 5)

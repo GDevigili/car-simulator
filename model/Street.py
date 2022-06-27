@@ -36,11 +36,14 @@ class Street:
                 random.randint(self.point1[1] + MIN_STREET_DISTANCE, MAX_MAP_Y)
             )
 
-    def update(self, screen):
-        self.draw(screen)
+    def update(self, simulation):
+        self.draw(simulation.screen)
 
     def draw(self, screen):
         pygame.draw.line(screen, (255, 0, 0), self.point1, self.point2)
+
+    def generate_cars(self):
+        pass
                 
     def __str__(self) -> str:
         return f'Street: {self.orientation}, {self.point1}, {self.point2}'
