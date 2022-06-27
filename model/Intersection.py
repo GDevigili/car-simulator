@@ -1,9 +1,6 @@
 from lib2to3.pgen2.pgen import generate_grammar
 import pygame
 
-from utils import generate_random_position
-
-
 class Intersection:
     def __init__(self, position, vstreet, hstreet) -> None:
         self.position = position
@@ -15,3 +12,6 @@ class Intersection:
 
     def draw(self, screen) -> None:
         pygame.draw.circle(screen, (0, 255, 0), self.position, 5)
+
+    def __str__(self) -> str:
+        return f'Intersection: {self.position}, {self.vstreet}, {self.hstreet}'
