@@ -19,10 +19,11 @@ class Simulation:
         self.intersections = []
         for i in range(len(self.streets)):
             for j in range(i + 1, len(self.streets)):
-                print(i, j)
                 intersection = get_intersection(self.streets[i], self.streets[j])
                 if intersection:
                     self.intersections.append(intersection)
+                    self.streets[i].intersections.append(intersection)
+                    self.streets[j].intersections.append(intersection)
 
     def run(self):
         

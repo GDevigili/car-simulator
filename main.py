@@ -7,5 +7,5 @@ import random
 
 if __name__ == '__main__':
     random.seed(1)
-    sim = Simulation(50)
+    sim = Simulation(10)
     sim.run()
