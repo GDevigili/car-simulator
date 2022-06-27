@@ -6,6 +6,7 @@ import pygame
 from model.Intersection import Intersection
 from model.Street import Street
 from GLOBAL_VARIABLES import *
+from utils import get_intersection
 
 
 class Simulation:
@@ -13,9 +14,15 @@ class Simulation:
 
     def __init__(self, nbr_streets = 20) -> None:
         self.streets = [Street(10) for i in range(nbr_streets)]
+
+        # calculate the intersections
         self.intersections = []
-        for street in self.streets:
-            street.get_intersections(self)
+        for i in range(len(self.streets)):
+            for j in range(i + 1, len(self.streets)):
+                print(i, j)
+                intersection = get_intersection(self.streets[i], self.streets[j])
+                if intersection:
+                    self.intersections.append(intersection)
 
     def run(self):
         
@@ -53,5 +60,6 @@ class Simulation:
 
             # wait FPS seconds
             FramePerSec.tick(FPS)
+
 
         return time.time() - start_time

@@ -2,8 +2,10 @@ import sys
 sys.path.append('..')
 
 from model.Simulation import Simulation
+import random
 
 
 if __name__ == '__main__':
-    sim = Simulation(20)
+    random.seed(1)
+    sim = Simulation(50)
     sim.run()
