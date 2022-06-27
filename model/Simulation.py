@@ -11,11 +11,8 @@ from GLOBAL_VARIABLES import *
 class Simulation:
     """Simulates a scenario of the traffic of a city"""
 
-    def __init__(self) -> None:
-        self.initialize_components()
-
-    def initialize_components(self):
-        self.streets = [Street(10) for i in range(10)]
+    def __init__(self, nbr_streets = 20) -> None:
+        self.streets = [Street(10) for i in range(nbr_streets)]
 
     def run(self):
         
