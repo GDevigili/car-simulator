@@ -13,6 +13,9 @@ class Simulation:
 
     def __init__(self, nbr_streets = 20) -> None:
         self.streets = [Street(10) for i in range(nbr_streets)]
+        self.intersections = []
+        for street in self.streets:
+            street.get_intersections(self)
 
     def run(self):
         
@@ -34,6 +37,9 @@ class Simulation:
             for street in self.streets:
                 street.update(self.screen)
 
+            for intersection in self.intersections:
+                intersection.update(self.screen)
+                
             # update the display
             pygame.display.update()
 
