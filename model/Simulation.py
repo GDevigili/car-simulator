@@ -5,6 +5,7 @@ import pygame
 
 from model.Intersection import Intersection
 from model.Street import Street
+from model.Car import Car
 from GLOBAL_VARIABLES import *
 from utils import get_intersection
 
@@ -37,17 +38,22 @@ class Simulation:
         # fill the screen with white
         self.screen = pygame.display.set_mode((1000, 1000))
 
+        # TEST DRIVE
+        car = Car(self.streets[0].point1, (0, 1))
+
         # main loop
         while running:
 
             self.screen.fill((255, 255, 255))
 
             for street in self.streets:
-                street.update(self.screen)
+                street.update(self)
 
             for intersection in self.intersections:
-                intersection.update(self.screen)
+                intersection.update(self)
                 
+            car.update(self)
+
             # update the display
             pygame.display.update()
 

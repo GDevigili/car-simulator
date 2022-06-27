@@ -1,6 +1,8 @@
 import random
 import pygame
 
+from utils import is_between
+
 class Car:
     def __init__(self, position, direction: tuple) -> None:
         """_summary_
@@ -28,12 +30,14 @@ class Car:
             self.position[1] + self.direction[1] * self.speed
         )
 
-        
+        for intersection in street.intersections:
+            if is_between(intersection.position, self.position, new_position):
+                new_position = intersection.position
 
         self.position = new_position
 
     def update(self, simulation):
-        self.move(simulation.streets)
+        self.move(simulation.streets[0])
         self.draw(simulation.screen)
 
     def draw(self, screen):
