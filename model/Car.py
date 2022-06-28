@@ -20,15 +20,19 @@ class Car:
     def set_speed(self) -> None:
         self.speed = random.randint(1, 5)
 
-    def change_street(self):
+    def change_street(self, intersection):
         # define the directions
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        # remove the current direction
-        directions.remove(self.direction)
-        print(self.direction)
-        print(directions)
+        # remove the opposite of the current direction (the car can't go back)
+        directions.remove((self.direction[0] * -1, self.direction[1] * -1))
         # get a random direction
-        self.direction = random.choice(directions)
+        new_direction = random.choice(directions)
+        if new_direction != self.direction:
+            self.direction = new_direction
+            if self.current_street.orientation == 'h':
+                self.current_street = intersection.vstreet
+            else:
+                self.current_street = intersection.hstreet
         # set a new speed
         self.set_speed()
 
@@ -44,13 +48,12 @@ class Car:
     def check_move(self):
         new_position = self.move()
 
-        if is_between(self.current_street.point1, self.position, new_position) or\
-            is_between(self.current_street.point2, self.position, new_position):
-            print('gone')
+        if not is_between(new_position, self.current_street.point1, self.current_street.point2):
+            print("gone")
 
         for intersection in self.current_street.intersections:
             if intersection.position == self.position:
-                self.change_street()
+                self.change_street(intersection)
                 self.position = self.move()
                 return 0
             else:
