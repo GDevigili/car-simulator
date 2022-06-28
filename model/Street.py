@@ -45,7 +45,7 @@ class Street:
             )
 
     def generate_cars(self, simulation):
-        """Generate a new car in the current street considering a 10% chance for each empty "space" in the street. 
+        """Generate a new car in the current street considering a 1% chance for each empty "space" in the street. 
         The space is the difference between the max car capacity and the current car number.
         The car will be generated in one of the two street end points.
         
@@ -55,8 +55,8 @@ class Street:
         # for i in every avaliable space in the street
         for i in range(self.max_car_capacity - self.current_car_number):
 
-            # there is 10% chance of generating a new car
-            if random.randint(0, 100) <= 1:
+            # there is 1% chance of generating a new car
+            if random.randint(0, 100) < 1:
 
                 # choose between one of the street endpoints to the car position
                 position = random.choice([self.point1, self.point2])
