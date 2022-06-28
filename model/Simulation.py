@@ -52,7 +52,7 @@ class Simulation:
             for intersection in self.intersections:
                 intersection.update(self)
                 
-            car.update(self)
+            car.update(self, self.streets[0])
 
             # update the display
             pygame.display.update()
