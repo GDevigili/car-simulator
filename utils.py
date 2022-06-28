@@ -45,3 +45,12 @@ def is_between(p, a, b) -> bool:
         if (p[1] >= a[1] and p[1] <= b[1]) or (p[1] >= b[1] and p[1] <= a[1]):
             return True
     return False
+
+def get_car_list(cars, streets):
+    car_list = {}
+    # create empty lists for every street
+    for street in streets:
+        car_list[street] = []
+    # add the cars to the list
+    for car in cars:
+        car_list[car.current_street].append(car)
