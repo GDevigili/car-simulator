@@ -14,7 +14,7 @@ class Simulation:
     """Simulates a scenario of the traffic of a city"""
 
     def __init__(self, nbr_streets = 20) -> None:
-        self.streets = [Street(10) for i in range(nbr_streets)]
+        self.streets = [Street(1) for i in range(nbr_streets)]
 
         # calculate the intersections
         self.intersections = []
@@ -25,6 +25,9 @@ class Simulation:
                     self.intersections.append(intersection)
                     self.streets[i].intersections.append(intersection)
                     self.streets[j].intersections.append(intersection)
+
+        # define an empty car list
+        self.cars = []
 
     def run(self):
         
@@ -38,9 +41,6 @@ class Simulation:
         # fill the screen with white
         self.screen = pygame.display.set_mode((1000, 1000))
 
-        # TEST DRIVE
-        car = Car(self.streets[0].point1, (0, 1))
-
         # main loop
         while running:
 
@@ -52,7 +52,8 @@ class Simulation:
             for intersection in self.intersections:
                 intersection.update(self)
                 
-            car.update(self, self.streets[0])
+            for car in self.cars: 
+                car.update(self)
 
             # update the display
             pygame.display.update()
