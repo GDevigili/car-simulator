@@ -27,12 +27,22 @@ class Car:
         directions.remove((self.direction[0] * -1, self.direction[1] * -1))
         # get a random direction
         new_direction = random.choice(directions)
+        # if the car don't stay in the same direction
         if new_direction != self.direction:
+            # change the direction to the new one
             self.direction = new_direction
+            # decreases the amount of cars in the current street
+            self.current_street.current_car_number -= 1
+            # if the current street is horizontal
             if self.current_street.orientation == 'h':
+                # the new street will be vertical
                 self.current_street = intersection.vstreet
+            # if the current street is vertical
             else:
+                # the new street will be horizontal
                 self.current_street = intersection.hstreet
+            # increases the amount of cars in the new street
+            self.current_street.current_car_number += 1
         # set a new speed
         self.set_speed()
 
@@ -42,18 +52,28 @@ class Car:
             self.position[0] + self.direction[0] * self.speed,
             self.position[1] + self.direction[1] * self.speed
         )
-
         return new_position
 
-    def check_move(self):
+    def check_move(self, simulation):
         new_position = self.move()
 
+        # verify if the car is not in a street
         if not is_between(new_position, self.current_street.point1, self.current_street.point2):
-            print("gone")
+            # remove the car from the simulation
+            simulation.cars.remove(self)
+            # decreases the amount of cars in the current street
+            self.current_street.current_car_number -= 1
+            # delete the object
+            del self
+            # return False to stop the function
+            return 0
 
         for intersection in self.current_street.intersections:
+            # verify if the car is in an intersection
             if intersection.position == self.position:
+                # change the street (or not)
                 self.change_street(intersection)
+                # move in that direction
                 self.position = self.move()
                 return 0
             else:
@@ -63,7 +83,7 @@ class Car:
         self.position = new_position
 
     def update(self, simulation):
-        self.check_move()
+        self.check_move(simulation)
         self.draw(simulation.screen)
 
     def draw(self, screen):
