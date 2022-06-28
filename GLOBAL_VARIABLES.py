@@ -1,9 +1,9 @@
 import pygame
 
 # Simulation
-minutes = 2.0
-MAX_EXECUTION_TIME = minutes*6*1000
-FPS = 20
+minutes = 1.0
+MAX_EXECUTION_TIME = minutes*60
+FPS = 5
 FramePerSec = pygame.time.Clock()
 
 

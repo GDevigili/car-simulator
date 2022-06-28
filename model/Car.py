@@ -87,7 +87,7 @@ class Car:
         self.draw(simulation.screen)
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (0, 0, 255), self.position, 10)
+        pygame.draw.circle(screen, (0, 0, 255), self.position, 5)
 
             
 
