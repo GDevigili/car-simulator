@@ -4,7 +4,7 @@ import pygame
 from utils import is_between
 
 class Car:
-    def __init__(self, position, direction: tuple) -> None:
+    def __init__(self, position, direction: tuple, current_street) -> None:
         """_summary_
 
         Args:
@@ -15,7 +15,7 @@ class Car:
         self.set_speed()
         self.position = position
         self.direction = direction
-        pass
+        self.current_street = current_street
 
     def set_speed(self) -> None:
         self.speed = random.randint(1, 10)
