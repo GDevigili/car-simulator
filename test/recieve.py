@@ -1,22 +1,22 @@
-import pika, sys, os
+import pika
 
-def main():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-    channel = connection.channel()
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(host='localhost'))
+channel = connection.channel()
 
-    channel.queue_declare(queue='hello')
+channel.exchange_declare(exchange='logs', exchange_type='fanout')
 
-    def callback(ch, method, properties, body):
-        print(" [x] Received %r" % body)
+result = channel.queue_declare(queue='', exclusive=True)
+queue_name = result.method.queue
 
-    channel.basic_consume(queue='hello', on_message_callback=callback, auto_ack=True)
+channel.queue_bind(exchange='logs', queue=queue_name)
 
-    print(' [*] Waiting for messages. To exit press CTRL+C')
-    channel.start_consuming()
+print(' [*] Waiting for logs. To exit press CTRL+C')
 
-if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        print('\n[!] Exiting...')
-        sys.exit(0)
+def callback(ch, method, properties, body):
+    print(" [x] %r" % body)
+
+channel.basic_consume(
+    queue=queue_name, on_message_callback=callback, auto_ack=True)
+
+channel.start_consuming()
