@@ -28,6 +28,11 @@ class Simulation:
                     self.streets[i].intersections.append(intersection)
                     self.streets[j].intersections.append(intersection)
 
+        for street in self.streets:
+            if street.intersections == []:
+                self.streets.remove(street)
+                del street
+
         # define an empty car list
         self.cars = []
 
