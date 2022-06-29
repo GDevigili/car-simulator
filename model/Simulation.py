@@ -16,6 +16,8 @@ class Simulation:
     def __init__(self, nbr_streets = 20) -> None:
         self.streets = [Street(1) for i in range(nbr_streets)]
 
+        self.duration = random.randint(10, 150) # duration is between 10 and 150 seconds
+
         # calculate the intersections
         self.intersections = []
         for i in range(len(self.streets)):
@@ -59,7 +61,7 @@ class Simulation:
             pygame.display.update()
 
             # check for end conditions
-            if time.time() - start_time > MAX_EXECUTION_TIME:
+            if time.time() - start_time > self.duration:
                 running = False
 
             for event in pygame.event.get():
