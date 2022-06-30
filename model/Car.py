@@ -1,4 +1,5 @@
 import random
+import uuid
 import pygame
 
 from utils import is_between
@@ -12,6 +13,7 @@ class Car:
             direction (tuple[int]): describes the direction which the car is going to.
                 It can be up (0, -1), down (0, 1), left (-1, 0) or right (1, 0).
         """
+        self.id = uuid.uuid4()
         self.set_speed()
         self.position = position
         self.direction = direction
@@ -90,9 +92,18 @@ class Car:
         # updates the distance
         self.distance += self.speed
 
+    def export_data(self):
+        return str({
+            'id': self.id,
+            'speed': self.speed,
+            'distance': self.distance,
+            'street': self.current_street.id
+        })
+
     def update(self, simulation):
         self.check_move(simulation)
         self.draw(simulation.screen)
+        simulation.send_message(self.export_data())
 
     def draw(self, screen):
         pygame.draw.circle(screen, (0, 0, 255), self.position, 5)

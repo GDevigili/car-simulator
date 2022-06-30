@@ -1,5 +1,7 @@
+import uuid
 import pygame
 import random
+import uuid
 
 from utils import get_car_list
 from GLOBAL_VARIABLES import MIN_STREET_DISTANCE, MAX_MAP_X, MAX_MAP_Y
@@ -9,6 +11,7 @@ from model.Car import Car
 class Street:
 
     def __init__(self, max_car_capacity: int):
+        self.id = uuid.uuid4()
         self.max_car_capacity = max_car_capacity
         self.current_car_number = 0
 
