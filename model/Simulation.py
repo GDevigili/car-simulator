@@ -1,11 +1,15 @@
-import random
 import time
+import random
+import json
+import uuid
 
 import pygame
+import pika
 
 from model.Intersection import Intersection
 from model.Street import Street
 from model.Car import Car
+
 from GLOBAL_VARIABLES import *
 from utils import get_intersection
 
@@ -16,18 +20,25 @@ class Simulation:
     def __init__(self, nbr_streets = 20) -> None:
         self.streets = [Street(1) for i in range(nbr_streets)]
 
-        self.duration = random.randint(10, 150) # duration is between 10 and 150 seconds
+        self.duration = random.randint(MIN_EXECUTION_TIME, MAX_EXECUTION_TIME)
 
         # calculate the intersections
-        self.intersections = []
+        # self.intersections = []
+        # iterate over the streets
         for i in range(len(self.streets)):
+            # iterate over the streets that weren't already iterated
             for j in range(i + 1, len(self.streets)):
+                # verifies if there is a intersection between the two streets
                 intersection = get_intersection(self.streets[i], self.streets[j])
+                # if there is an intersection
                 if intersection:
-                    self.intersections.append(intersection)
+                    # # add it to the simulation intersections
+                    # self.intersections.append(intersection)
+                    # add the intersection to both streets
                     self.streets[i].intersections.append(intersection)
                     self.streets[j].intersections.append(intersection)
 
+        # remove streets without intersections
         for street in self.streets:
             if street.intersections == []:
                 self.streets.remove(street)
@@ -37,7 +48,6 @@ class Simulation:
         self.cars = []
 
     def run(self):
-        
         # calculate execution time
         start_time = time.time()
 
@@ -51,13 +61,15 @@ class Simulation:
         # main loop
         while running:
 
+            # reset the screen (fill with white)
             self.screen.fill((255, 255, 255))
 
+            # update the elements
             for street in self.streets:
                 street.update(self)
 
-            for intersection in self.intersections:
-                intersection.update(self)
+            # for intersection in self.intersections:
+            #     intersection.update(self)
                 
             for car in self.cars: 
                 car.update(self)
@@ -69,12 +81,12 @@ class Simulation:
             if time.time() - start_time > self.duration:
                 running = False
 
+            # check for events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
 
-            # wait FPS seconds
-            FramePerSec.tick(FPS)
-
+            # control simulation speed
+            pygame.time.Clock().tick(FPS)
 
         return time.time() - start_time
