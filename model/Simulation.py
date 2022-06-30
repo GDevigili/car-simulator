@@ -18,13 +18,16 @@ class Simulation:
     """Simulates a scenario of the traffic of a city"""
 
     def __init__(self, nbr_streets = 20) -> None:
-        self.streets = [Street(1) for i in range(nbr_streets)]
+        # set id
+        self.id = str(uuid.uuid4())
 
+        # randomize the max_duration
         self.duration = random.randint(MIN_EXECUTION_TIME, MAX_EXECUTION_TIME)
 
+        # generate a list of streets
+        self.streets = [Street(1) for i in range(nbr_streets)]
+
         # calculate the intersections
-        # self.intersections = []
-        # iterate over the streets
         for i in range(len(self.streets)):
             # iterate over the streets that weren't already iterated
             for j in range(i + 1, len(self.streets)):
@@ -71,14 +74,21 @@ class Simulation:
 
     def export_data(self):
         return str({
-            "id": str(uuid.uuid4()),
+            "id": self.id,
             "nbr_streets": len(self.streets),
             "nbr_intersections": self.get_intersection_nbr(),
         })
 
+    def time_message(self):
+        return str({
+            "id": self.id,
+            "time": time.time() - self.start_time,
+            "tick_counter": self.tick_counter,
+        })
+
     def run(self):
         # calculate execution time
-        start_time = time.time()
+        self.start_time = time.time()
 
         # initialize pygame
         pygame.init()
@@ -91,6 +101,9 @@ class Simulation:
         self.start_connection()
 
         self.send_message(self.export_data())
+
+        # set a tick counter
+        self.tick_counter = 0
 
         # main loop
         while running:
@@ -108,14 +121,17 @@ class Simulation:
             # update the display
             pygame.display.update()
 
-            # check for end conditions
-            if time.time() - start_time > self.duration:
+            # check if the duration is over
+            if time.time() - self.start_time > self.duration:
                 running = False
 
             # check for events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+
+            self.tick_counter += 1
+            self.send_message(self.time_message())
 
             # control simulation speed
             pygame.time.Clock().tick(FPS)
