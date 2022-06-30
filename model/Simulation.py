@@ -45,6 +45,19 @@ class Simulation:
         # define an empty car list
         self.cars = []
 
+    def start_connection(self):
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        self.channel = self.connection.channel()
+
+        self.channel.exchange_declare(exchange='logs', exchange_type='fanout')
+
+    def close_connection(self):
+        self.connection.close()
+
+    def send_message(self, message):
+        self.channel.basic_publish(exchange='logs', routing_key='', body=message)
+        print(" [x] Sent %r" % message)
+
     def run(self):
         # calculate execution time
         start_time = time.time()
