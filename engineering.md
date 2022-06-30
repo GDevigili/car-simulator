@@ -1,3 +1,9 @@
+# Priority List:
++ [ ] make the database
++ [ ] get the messages into the code and store them in the database
++ [ ] make the queries to get the data from the database
++ [ ] make the interface
+
 # Simulator
 + will represent the *streets* and the *intersections* of a city
 + the graph containing streets (edges) and intersections (nodes) will be generated randomly at each execution of the program
