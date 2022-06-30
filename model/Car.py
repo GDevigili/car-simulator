@@ -16,6 +16,7 @@ class Car:
         self.position = position
         self.direction = direction
         self.current_street = current_street
+        self.distance = 0
 
     def set_speed(self) -> None:
         self.speed = random.randint(1, 5)
@@ -77,10 +78,17 @@ class Car:
                 self.position = self.move()
                 return 0
             else:
+                # verify if the car will pass by an intersection
                 if is_between(intersection.position, self.position, new_position):
-                    new_position = intersection.position
-                    break
+                    # go to the intersection
+                    self.position = intersection.position
+                    # increases the distance
+                    self.distance += abs(self.position[0] - intersection.position[0] + self.position[1] - intersection.position[1])
+                    return 0
+        # updates position                    
         self.position = new_position
+        # updates the distance
+        self.distance += self.speed
 
     def update(self, simulation):
         self.check_move(simulation)
