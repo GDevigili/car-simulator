@@ -11,7 +11,7 @@ from model.Car import Car
 class Street:
 
     def __init__(self, max_car_capacity: int):
-        self.id = uuid.uuid4()
+        self.id = str(uuid.uuid4())
         self.max_car_capacity = max_car_capacity
         self.current_car_number = 0
 
