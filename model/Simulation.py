@@ -32,8 +32,6 @@ class Simulation:
                 intersection = get_intersection(self.streets[i], self.streets[j])
                 # if there is an intersection
                 if intersection:
-                    # # add it to the simulation intersections
-                    # self.intersections.append(intersection)
                     # add the intersection to both streets
                     self.streets[i].intersections.append(intersection)
                     self.streets[j].intersections.append(intersection)
@@ -67,9 +65,6 @@ class Simulation:
             # update the elements
             for street in self.streets:
                 street.update(self)
-
-            # for intersection in self.intersections:
-            #     intersection.update(self)
                 
             for car in self.cars: 
                 car.update(self)
