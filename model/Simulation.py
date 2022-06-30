@@ -45,18 +45,36 @@ class Simulation:
         # define an empty car list
         self.cars = []
 
+    def get_intersection_nbr(self):
+        nbr_intersections = 0
+        # iterate over the streets
+        for street in self.streets:
+            nbr_intersections += len(street.intersections)
+        # each intersection is counted twice
+        return nbr_intersections/2
+
     def start_connection(self):
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         self.channel = self.connection.channel()
 
         self.channel.exchange_declare(exchange='logs', exchange_type='fanout')
 
+        self.send_message("Connection successfully established")
+
     def close_connection(self):
+        self.send_message("Closing connection")
         self.connection.close()
 
     def send_message(self, message):
         self.channel.basic_publish(exchange='logs', routing_key='', body=message)
         print(" [x] Sent %r" % message)
+
+    def export_data(self):
+        return str({
+            "id": str(uuid.uuid4()),
+            "nbr_streets": len(self.streets),
+            "nbr_intersections": self.get_intersection_nbr(),
+        })
 
     def run(self):
         # calculate execution time
@@ -68,6 +86,11 @@ class Simulation:
 
         # fill the screen with white
         self.screen = pygame.display.set_mode((1000, 1000))
+
+        # initialize a connection with the subscriber
+        self.start_connection()
+
+        self.send_message(self.export_data())
 
         # main loop
         while running:
@@ -97,4 +120,5 @@ class Simulation:
             # control simulation speed
             pygame.time.Clock().tick(FPS)
 
-        return time.time() - start_time
+        # close the connection
+        self.close_connection()
