@@ -25,16 +25,16 @@ pip install -r requirements.txt
 Fist you'll need to run the following command to start the rabbitMQ server:
 
 ```bash
-docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+sudo docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 ```
 
 Then you'll need to start the consumer:
 
 ```bash
-python3 consumer.py
+python3 src/subscriber.py
 ```
 
 And then serve the consumer with the publisher:
 ```
-python3 main.py
+python3 src/main.py
 ```

@@ -6,6 +6,6 @@ import random
 
 
 if __name__ == '__main__':
-    random.seed(10)
-    sim = Simulation(20)
+    random.seed() # seed: 10
+    sim = Simulation(30)
     sim.run()

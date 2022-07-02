@@ -100,6 +100,7 @@ class Simulation:
         # initialize a connection with the subscriber
         self.start_connection()
 
+        # send a message to the subscriber
         self.send_message(self.export_data())
 
         # set a tick counter
