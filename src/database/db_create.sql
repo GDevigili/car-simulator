@@ -1,8 +1,11 @@
--- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2022-07-02 19:14:17.125
+-- database creation
+CREATE database IF NOT EXISTS car_simulator_db;
+USE car_simulator_db;
+
 
 -- tables
 -- Table: car_state
+
 CREATE TABLE car_state (
     car_id varchar(36) NOT NULL,
     tick_id int NOT NULL,
@@ -43,5 +46,15 @@ ALTER TABLE car_state ADD CONSTRAINT car_state_tick FOREIGN KEY car_state_tick (
 ALTER TABLE tick ADD CONSTRAINT tick_scenario FOREIGN KEY tick_scenario (scenario_id)
     REFERENCES scenario (id);
 
--- End of file.
 
+-- USER CREATION
+
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'password'; 
+
+GRANT ALL PRIVILEGES
+    ON `car_simulator_db`.* 
+    TO 'user'@'localhost';
+
+FLUSH PRIVILEGES;
+
+-- End of file.
