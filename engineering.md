@@ -1,8 +1,14 @@
-# Priority List:
-+ [ ] make the database
-+ [ ] get the messages into the code and store them in the database
+# To-do List:
++ [x] make the database
++ [x] get the messages into the code and store them in the database
++ [ ] traffic lights
++ [ ] verification if the vehicle can enter a street
+  + [ ] 
+  + [ ] 
++ [ ] make various instances of the simulation
++ [ ] generate a new scenario when another stops
 + [ ] make the queries to get the data from the database
-+ [ ] make the interface
++ [ ] make the interface  with the analysis
 
 # Simulator
 + will represent the *streets* and the *intersections* of a city
