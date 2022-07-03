@@ -1,7 +1,6 @@
 import random
 import uuid
 import pygame
-import Street
 
 
 from utils import is_between
@@ -34,7 +33,7 @@ class Car:
         new_direction = random.choice(directions)
         # if the car don't stay in the same direction
         if new_direction != self.direction:
-            if Street.current_car_number[new_direction] < Street.max_car_capacity:
+            if self.current_street.current_car_number[new_direction] < self.current_street.max_car_capacity:
                 # change the direction to the new one
                 self.direction = new_direction
                 # decreases the amount of cars in the current street
