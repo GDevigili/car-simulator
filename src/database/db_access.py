@@ -95,27 +95,27 @@ def erase_database(conn):
     conn.commit()
 
 
-if __name__ == "__main__":
-    conn = connect()
-    # insert_scenario(conn, {
-    #     "id": 1,
-    #     "nbr_streets": 2,
-    #     "nbr_intersections": 1,
-    #     "duration": 10
-    # })
-    # insert_tick(conn, {
-    #     "tick_counter": 1,
-    #     "simulation_id": 1,
-    #     "time": 0
-    # })
-    # insert_car_state(conn, {
-    #     "id": 1,
-    #     "tick_counter": 1,
-    #     "simulation_id": 1,
-    #     "distance": 0,
-    #     "street_id": 1,
-    #     "speed": 0
-    # })
-    erase_database(conn)
-    conn.close()
-    print("Done")
+# if __name__ == "__main__":
+#     conn = connect()
+#     # insert_scenario(conn, {
+#     #     "id": 1,
+#     #     "nbr_streets": 2,
+#     #     "nbr_intersections": 1,
+#     #     "duration": 10
+#     # })
+#     # insert_tick(conn, {
+#     #     "tick_counter": 1,
+#     #     "simulation_id": 1,
+#     #     "time": 0
+#     # })
+#     # insert_car_state(conn, {
+#     #     "id": 1,
+#     #     "tick_counter": 1,
+#     #     "simulation_id": 1,
+#     #     "distance": 0,
+#     #     "street_id": 1,
+#     #     "speed": 0
+#     # })
+#     # erase_database(conn)
+#     conn.close()
+#     print("Done")
