@@ -28,72 +28,107 @@ def close_connection(conn):
 
 
 def insert_scenario(conn, simulation_data:dict):
-    cursor = conn.cursor()
+    try:
+        cursor = conn.cursor()
 
-    insert = f""" INSERT INTO scenario (
-                    id,
-                    nbr_streets,
-                    nbr_intersections, 
-                    duration
-                )
-                VALUES ({simulation_data['id']},
-                        {simulation_data['nbr_streets']},
-                        {simulation_data['nbr_intersections']},
-                        {simulation_data['duration']}
-                );
-    """
+        insert = f""" INSERT INTO scenario (
+                        id,
+                        nbr_streets,
+                        nbr_intersections, 
+                        duration
+                    )
+                    VALUES ({simulation_data['id']},
+                            {simulation_data['nbr_streets']},
+                            {simulation_data['nbr_intersections']},
+                            {simulation_data['duration']}
+                    );
+        """
 
-    cursor.execute(insert)
-    conn.commit()
+        cursor.execute(insert)
+        conn.commit()
+
+        return True
+
+    except mysql.connector.Error as error:
+        print("Error: {}".format(error))
+        conn.rollback()
+
+        return False
 
 def insert_car_state(conn, car_state_data:dict):
-    cursor = conn.cursor()
+    try: 
+        cursor = conn.cursor()
 
-    insert = f""" INSERT INTO car_state (
-                    car_id,
-                    tick_id,
-                    scenario_id,
-                    distance,
-                    current_street_id,
-                    speed
-                )
-                VALUES ({car_state_data['id']},
-                        {car_state_data['tick_counter']},
-                        {car_state_data['simulation_id']},
-                        {car_state_data['distance']},
-                        {car_state_data['street_id']},
-                        {car_state_data['speed']}
-                );
-    """
+        insert = f""" INSERT INTO car_state (
+                        car_id,
+                        tick_id,
+                        scenario_id,
+                        distance,
+                        current_street_id,
+                        speed
+                    )
+                    VALUES ({car_state_data['id']},
+                            {car_state_data['tick_counter']},
+                            {car_state_data['simulation_id']},
+                            {car_state_data['distance']},
+                            {car_state_data['street_id']},
+                            {car_state_data['speed']}
+                    );
+        """
 
-    cursor.execute(insert)
-    conn.commit()
+        cursor.execute(insert)
+        conn.commit()
+
+        return True
+
+    except mysql.connector.Error as error:
+        print("Error: {}".format(error))
+        conn.rollback()
+
+        return False
 
 def insert_tick(conn, tick_data:dict):
-    cursor = conn.cursor()
+    try:
+        cursor = conn.cursor()
 
-    insert = f""" INSERT INTO tick (
-                    id,
-                    scenario_id,
-                    seconds_elapsed
-                )
-                VALUES ({tick_data['tick_counter']},
-                        {tick_data['simulation_id']},
-                        {tick_data['time']}
-                );
-    """
+        insert = f""" INSERT INTO tick (
+                        id,
+                        scenario_id,
+                        seconds_elapsed
+                    )
+                    VALUES ({tick_data['tick_counter']},
+                            {tick_data['simulation_id']},
+                            {tick_data['time']}
+                    );
+        """
 
-    cursor.execute(insert)
-    conn.commit()
+        cursor.execute(insert)
+        conn.commit()
+
+        return True
+
+    except mysql.connector.Error as error:
+        print("Error: {}".format(error))
+        conn.rollback()
+
+        return False
 
 def erase_database(conn):
-    cursor = conn.cursor()
+    try:
+        cursor = conn.cursor()
 
-    cursor.execute("DELETE FROM car_state")
-    cursor.execute("DELETE FROM tick")
-    cursor.execute("DELETE FROM scenario")
-    conn.commit()
+        cursor.execute("DELETE FROM car_state")
+        cursor.execute("DELETE FROM tick")
+        cursor.execute("DELETE FROM scenario")
+        conn.commit()
 
+        return True
+
+    except mysql.connector.Error as error:
+        print("Error: {}".format(error))
+        conn.rollback()
+        
+        return False
 
 # if __name__ == "__main__":
 #     conn = connect()
