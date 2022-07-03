@@ -13,3 +13,9 @@ MAX_MAP_Y = 1000
 
 # Street
 MIN_STREET_DISTANCE = max(MAX_MAP_X, MAX_MAP_Y)/5
+
+# DB Connection
+DB_HOST = 'localhost'
+DB_DATABASE = 'car_simulator_db'
+DB_USER = 'user'
+DB_PASSWORD = 'password'
