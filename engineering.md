@@ -3,7 +3,7 @@
 + [x] get the messages into the code and store them in the database
 + [ ] traffic lights
 + [ ] verification if the vehicle can enter a street
-  + [ ] 
+  + [ ] traffic light
   + [ ] 
 + [ ] make various instances of the simulation
 + [ ] generate a new scenario when another stops

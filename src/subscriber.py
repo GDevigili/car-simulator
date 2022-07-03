@@ -48,6 +48,8 @@ def callback(ch, method, properties, body):
                 pass
             else:
                 print(f"   [x] Error inserting car state data in the database")
+    else:
+        print(f" [x] Received message: {message}")
 
 
 channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
