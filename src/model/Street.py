@@ -17,11 +17,14 @@ class Street:
             self.max_car_capacity = randint(1, 5)
         else:
             self.max_car_capacity = max_car_capacity
-        self.current_car_number = {(0, 1): 0, (0, -1): 0, (1, 0): 0, (-1, 0): 0}
-
 
         # stores if the street is vertical(v) or horizontal(h)
         self.orientation = random.choice(['h', 'v'])
+
+        if self.orientation == 'h':
+            self.current_car_number = {(1, 0): 0, (-1, 0): 0}
+        else: # self.orientation == 'v'
+            self.current_car_number = {(0, 1): 0, (0, -1): 0}
 
         # empty list for intersections
         self.intersections = []
@@ -60,30 +63,13 @@ class Street:
         Args:
             simulation (Simulation): the simulation in which the cars are in
         """
-        # for i in every avaliable space in the street
-        for i in range(self.max_car_capacity):
-
-            # there is 1% chance of generating a new car
+        for direction in self.current_car_number:
             if random.randint(0, 100) < 1:
+                position = self.point1 if direction > (0, 0) else self.point2
 
-                # choose between one of the street endpoints to the car position
-                position = random.choice([self.point1, self.point2])
-
-                # determines the car direction
-                if self.orientation == 'h' and position == self.point1:
-                    direction = (1, 0)
-                elif self.orientation == 'h' and position == self.point2:
-                    direction = (-1, 0)
-                elif self.orientation == 'v' and position == self.point1:
-                    direction = (0, 1)
-                elif self.orientation == 'v' and position == self.point2:
-                    direction = (0, -1)
-
-                # create a new car
                 if self.current_car_number[direction] < self.max_car_capacity:
-                    simulation.cars.append(Car(position=position, direction=direction, current_street=self))
-                    self.current_car_number[direction] =+ 1
-
+                    self.current_car_number[direction] += 1
+                    simulation.cars.append(Car(position = position, direction = direction, current_street = self))
 
     def update(self, simulation):
         self.generate_cars(simulation)
