@@ -61,7 +61,7 @@ class Street:
             simulation (Simulation): the simulation in which the cars are in
         """
         # for i in every avaliable space in the street
-        for i in range(self.max_car_capacity - self.current_car_number):
+        for i in range(self.max_car_capacity):
 
             # there is 1% chance of generating a new car
             if random.randint(0, 100) < 1:
