@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 ### Running the Simulation
 
-Fist you'll need to run the following command to start the rabbitMQ server:
+First you'll need to run the following command to start the rabbitMQ server:
 
 ```bash
 sudo docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
