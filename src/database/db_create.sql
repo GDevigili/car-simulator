@@ -11,6 +11,7 @@ CREATE TABLE car_state (
     tick_id int NOT NULL,
     scenario_id varchar(36) NOT NULL,
     distance int NOT NULL,
+    speed int NOT NULL,
     current_street_id varchar(36) NOT NULL,
     CONSTRAINT car_state_pk PRIMARY KEY (car_id,tick_id)
 );
