@@ -21,7 +21,11 @@ def create_connection(host, database, user, passwd):
         return None
 
 def connect():
-    return create_connection(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD)
+    try:
+        return create_connection(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD)
+    except mysql.connector.Error as error:
+        print("Error: {}".format(error))
+        return None
 
 def close_connection(conn):
     conn.close()
@@ -37,13 +41,12 @@ def insert_scenario(conn, simulation_data:dict):
                         nbr_intersections, 
                         duration
                     )
-                    VALUES ({simulation_data['id']},
+                    VALUES ('{simulation_data['id']}',
                             {simulation_data['nbr_streets']},
                             {simulation_data['nbr_intersections']},
                             {simulation_data['duration']}
                     );
-        """
-
+        """ 
         cursor.execute(insert)
         conn.commit()
 
@@ -67,11 +70,11 @@ def insert_car_state(conn, car_state_data:dict):
                         current_street_id,
                         speed
                     )
-                    VALUES ({car_state_data['id']},
+                    VALUES ('{car_state_data['id']}',
                             {car_state_data['tick_counter']},
-                            {car_state_data['simulation_id']},
+                            '{car_state_data['simulation_id']}',
                             {car_state_data['distance']},
-                            {car_state_data['street_id']},
+                            '{car_state_data['street_id']}',
                             {car_state_data['speed']}
                     );
         """
@@ -97,8 +100,8 @@ def insert_tick(conn, tick_data:dict):
                         seconds_elapsed
                     )
                     VALUES ({tick_data['tick_counter']},
-                            {tick_data['simulation_id']},
-                            {tick_data['time']}
+                            '{tick_data['simulation_id']}',
+                            {round(tick_data['time'], 5)}
                     );
         """
 
@@ -127,7 +130,7 @@ def erase_database(conn):
     except mysql.connector.Error as error:
         print("Error: {}".format(error))
         conn.rollback()
-        
+
         return False
 
 # if __name__ == "__main__":
