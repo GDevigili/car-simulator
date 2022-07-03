@@ -20,7 +20,6 @@ CREATE TABLE scenario (
     id varchar(36) NOT NULL,
     nbr_streets int NOT NULL,
     nbr_intersections int NOT NULL,
-    nbr_cars int NOT NULL,
     duration decimal(10,5) NOT NULL,
     CONSTRAINT scenario_pk PRIMARY KEY (id)
 );
