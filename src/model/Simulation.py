@@ -84,7 +84,7 @@ class Simulation:
     def time_message(self):
         return str({
             "type": "time",
-            "id": self.id,
+            "simulation_id": self.id,
             "time": time.time() - self.start_time,
             "tick_counter": self.tick_counter,
         })

@@ -5,7 +5,7 @@ MIN_EXECUTION_TIME = 10
 MAX_EXECUTION_TIME = 90             
 
 # Simulation speed
-FPS = 20
+FPS = 1
 
 # Map Dimensions
 MAX_MAP_X = 1000
