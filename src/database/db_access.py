@@ -94,6 +94,7 @@ def erase_database(conn):
     cursor.execute("DELETE FROM scenario")
     conn.commit()
 
+
 if __name__ == "__main__":
     conn = connect()
     # insert_scenario(conn, {
