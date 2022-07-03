@@ -94,6 +94,7 @@ class Car:
 
     def export_data(self, simulation):
         return str({
+            'type': 'car',
             'id': self.id,
             'speed': self.speed,
             'distance': self.distance,

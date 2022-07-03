@@ -74,6 +74,7 @@ class Simulation:
 
     def export_data(self):
         return str({
+            "type": "simulation",
             "id": self.id,
             "nbr_streets": len(self.streets),
             "nbr_intersections": self.get_intersection_nbr(),
@@ -82,6 +83,7 @@ class Simulation:
 
     def time_message(self):
         return str({
+            "type": "time",
             "id": self.id,
             "time": time.time() - self.start_time,
             "tick_counter": self.tick_counter,
