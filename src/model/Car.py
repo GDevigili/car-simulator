@@ -106,7 +106,7 @@ class Car:
     def update(self, simulation):
         self.check_move(simulation)
         self.draw(simulation.screen)
-        simulation.send_message(self.export_data(simulation))
+        #simulation.send_message(self.export_data(simulation))
 
     def draw(self, screen):
         pygame.draw.circle(screen, (0, 0, 255), self.position, 5)
