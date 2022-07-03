@@ -25,30 +25,32 @@ class Car:
         self.speed = random.randint(1, 5)
 
     def change_street(self, intersection):
-        # define the directions
+        
+        # randomize the direction
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         # remove the opposite of the current direction (the car can't go back)
         directions.remove((self.direction[0] * -1, self.direction[1] * -1))
-        # get a random direction
         new_direction = random.choice(directions)
-        # if the car don't stay in the same direction
+
+        # if the car is going to a new street
         if new_direction != self.direction:
-            if self.current_street.current_car_number[new_direction] < self.current_street.max_car_capacity:
-                # change the direction to the new one
+            # define the new street
+            if self.current_street.orientation == 'h':
+                new_street = intersection.vstreet
+            else:
+                new_street = intersection.hstreet
+
+            if new_street.current_car_number[new_direction] < new_street.max_car_capacity:
+                # decrease the number of cars in the old street
+                self.current_street.current_car_number[self.direction] -= 1
+
+                # update street and direction
+                self.current_street = new_street
                 self.direction = new_direction
-                # decreases the amount of cars in the current street
-                self.current_street.current_car_number[new_direction] -= 1
-                # if the current street is horizontal
-                if self.current_street.orientation == 'h':
-                    # the new street will be vertical
-                    self.current_street = intersection.vstreet
-                # if the current street is vertical
-                else:
-                    # the new street will be horizontal
-                    self.current_street = intersection.hstreet
-                # increases the amount of cars in the new street
-                self.current_street.current_car_number[new_direction] += 1
-        # set a new speed
+
+                # increase the number of cars in the new street
+                self.current_street.current_car_number[self.direction] += 1
+
         self.set_speed()
 
     def move(self) -> None:
