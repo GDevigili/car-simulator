@@ -1,6 +1,8 @@
 import random
 import uuid
 import pygame
+import Street
+
 
 from utils import is_between
 
@@ -32,20 +34,21 @@ class Car:
         new_direction = random.choice(directions)
         # if the car don't stay in the same direction
         if new_direction != self.direction:
-            # change the direction to the new one
-            self.direction = new_direction
-            # decreases the amount of cars in the current street
-            self.current_street.current_car_number -= 1
-            # if the current street is horizontal
-            if self.current_street.orientation == 'h':
-                # the new street will be vertical
-                self.current_street = intersection.vstreet
-            # if the current street is vertical
-            else:
-                # the new street will be horizontal
-                self.current_street = intersection.hstreet
-            # increases the amount of cars in the new street
-            self.current_street.current_car_number += 1
+            if Street.current_car_number[new_direction] < Street.max_car_capacity:
+                # change the direction to the new one
+                self.direction = new_direction
+                # decreases the amount of cars in the current street
+                self.current_street.current_car_number -= 1
+                # if the current street is horizontal
+                if self.current_street.orientation == 'h':
+                    # the new street will be vertical
+                    self.current_street = intersection.vstreet
+                # if the current street is vertical
+                else:
+                    # the new street will be horizontal
+                    self.current_street = intersection.hstreet
+                # increases the amount of cars in the new street
+                self.current_street.current_car_number += 1
         # set a new speed
         self.set_speed()
 
