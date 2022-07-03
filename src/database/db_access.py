@@ -2,7 +2,11 @@ from unicodedata import name
 from pygame import Cursor
 import mysql.connector
 
-from GLOBAL_VARIABLES import DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD
+# DB Connection
+DB_HOST = 'localhost'
+DB_DATABASE = 'car_simulator_db'
+DB_USER = 'user'
+DB_PASSWORD = 'password'
 
 def create_connection(host, database, user, passwd):
     try:
@@ -82,6 +86,14 @@ def insert_tick(conn, tick_data:dict):
     cursor.execute(insert)
     conn.commit()
 
+def erase_database(conn):
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM car_state")
+    cursor.execute("DELETE FROM tick")
+    cursor.execute("DELETE FROM scenario")
+    conn.commit()
+
 if __name__ == "__main__":
     conn = connect()
     # insert_scenario(conn, {
@@ -103,5 +115,6 @@ if __name__ == "__main__":
     #     "street_id": 1,
     #     "speed": 0
     # })
+    erase_database(conn)
     conn.close()
     print("Done")
