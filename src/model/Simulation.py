@@ -4,7 +4,7 @@ import json
 import uuid
 
 import pygame
-import pika
+#import pika
 
 from model.Intersection import Intersection
 from model.Street import Street
@@ -25,7 +25,7 @@ class Simulation:
         self.duration = random.randint(MIN_EXECUTION_TIME, MAX_EXECUTION_TIME)
 
         # generate a list of streets
-        self.streets = [Street(1) for i in range(nbr_streets)]
+        self.streets = [Street() for i in range(nbr_streets)]
 
         # calculate the intersections
         for i in range(len(self.streets)):
@@ -56,21 +56,21 @@ class Simulation:
         # each intersection is counted twice
         return nbr_intersections/2
 
-    def start_connection(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-        self.channel = self.connection.channel()
+    #def start_connection(self):
+    #    self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    #    self.channel = self.connection.channel()
 
-        self.channel.exchange_declare(exchange='logs', exchange_type='fanout')
+    #    self.channel.exchange_declare(exchange='logs', exchange_type='fanout')
 
-        self.send_message("Connection successfully established")
+    #    self.send_message("Connection successfully established")
 
-    def close_connection(self):
-        self.send_message("Closing connection")
-        self.connection.close()
+    #def close_connection(self):
+    #    self.send_message("Closing connection")
+    #    self.connection.close()
 
-    def send_message(self, message):
-        self.channel.basic_publish(exchange='logs', routing_key='', body=message)
-        print(" [x] Sent %r" % message)
+    #def send_message(self, message):
+    #    self.channel.basic_publish(exchange='logs', routing_key='', body=message)
+    #    print(" [x] Sent %r" % message)
 
     def export_data(self):
         return str({
@@ -101,10 +101,10 @@ class Simulation:
         self.screen = pygame.display.set_mode((1000, 1000))
 
         # initialize a connection with the subscriber
-        self.start_connection()
+        #self.start_connection()
 
         # send a message to the subscriber
-        self.send_message(self.export_data())
+        #self.send_message(self.export_data())
 
         # set a tick counter
         self.tick_counter = 0
@@ -135,10 +135,10 @@ class Simulation:
                     running = False
 
             self.tick_counter += 1
-            self.send_message(self.time_message())
+            #self.send_message(self.time_message())
 
             # control simulation speed
             pygame.time.Clock().tick(FPS)
 
         # close the connection
-        self.close_connection()
+        #self.close_connection()

@@ -2,6 +2,7 @@ import random
 import uuid
 import pygame
 
+
 from utils import is_between
 
 class Car:
@@ -32,20 +33,21 @@ class Car:
         new_direction = random.choice(directions)
         # if the car don't stay in the same direction
         if new_direction != self.direction:
-            # change the direction to the new one
-            self.direction = new_direction
-            # decreases the amount of cars in the current street
-            self.current_street.current_car_number -= 1
-            # if the current street is horizontal
-            if self.current_street.orientation == 'h':
-                # the new street will be vertical
-                self.current_street = intersection.vstreet
-            # if the current street is vertical
-            else:
-                # the new street will be horizontal
-                self.current_street = intersection.hstreet
-            # increases the amount of cars in the new street
-            self.current_street.current_car_number += 1
+            if self.current_street.current_car_number[new_direction] < self.current_street.max_car_capacity:
+                # change the direction to the new one
+                self.direction = new_direction
+                # decreases the amount of cars in the current street
+                self.current_street.current_car_number[new_direction] -= 1
+                # if the current street is horizontal
+                if self.current_street.orientation == 'h':
+                    # the new street will be vertical
+                    self.current_street = intersection.vstreet
+                # if the current street is vertical
+                else:
+                    # the new street will be horizontal
+                    self.current_street = intersection.hstreet
+                # increases the amount of cars in the new street
+                self.current_street.current_car_number[new_direction] += 1
         # set a new speed
         self.set_speed()
 
@@ -65,7 +67,7 @@ class Car:
             # remove the car from the simulation
             simulation.cars.remove(self)
             # decreases the amount of cars in the current street
-            self.current_street.current_car_number -= 1
+            self.current_street.current_car_number[self.direction] -= 1
             # delete the object
             del self
             # return False to stop the function
@@ -106,7 +108,7 @@ class Car:
     def update(self, simulation):
         self.check_move(simulation)
         self.draw(simulation.screen)
-        simulation.send_message(self.export_data(simulation))
+        #simulation.send_message(self.export_data(simulation))
 
     def draw(self, screen):
         pygame.draw.circle(screen, (0, 0, 255), self.position, 5)
