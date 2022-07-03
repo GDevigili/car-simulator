@@ -11,10 +11,12 @@ from model.Car import Car
 
 class Street:
 
-    def __init__(self, max_car_capacity: None, int):
+    def __init__(self, max_car_capacity = None):
         self.id = str(uuid.uuid4())
         if max_car_capacity == None:
             self.max_car_capacity = randint(1, 20)
+        else:
+            self.max_car_capacity = max_car_capacity
         self.current_car_number = {(0, 1): 0, (0, -1): 0, (1, 0): 0, (-1, 0): 0}
 
 
@@ -70,21 +72,18 @@ class Street:
                 # determines the car direction
                 if self.orientation == 'h' and position == self.point1:
                     direction = (1, 0)
-                    self.current_car_number[(1, 0)] =+ 1
                 elif self.orientation == 'h' and position == self.point2:
                     direction = (-1, 0)
-                    self.current_car_number[(-1, 0)] =+ 1
                 elif self.orientation == 'v' and position == self.point1:
                     direction = (0, 1)
-                    self.current_car_number[(0, 1)] =+ 1
                 elif self.orientation == 'v' and position == self.point2:
                     direction = (0, -1)
-                    self.current_car_number[(0, -1)] =+ 1
 
                 # create a new car
                 if self.current_car_number[direction] < self.max_car_capacity:
                     simulation.cars.append(Car(position=position, direction=direction, current_street=self))
-                    self.current_car_number += 1
+                    self.current_car_number[direction] =+ 1
+
 
     def update(self, simulation):
         self.generate_cars(simulation)
