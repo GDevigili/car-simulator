@@ -77,6 +77,7 @@ class Simulation:
             "id": self.id,
             "nbr_streets": len(self.streets),
             "nbr_intersections": self.get_intersection_nbr(),
+            "duration": self.duration,
         })
 
     def time_message(self):
