@@ -78,16 +78,19 @@ class Car:
         for intersection in self.current_street.intersections:
             # verify if the car is in an intersection
             if intersection.position == self.position:
-                # change the street (or not)
-                self.change_street(intersection)
-                # move in that direction
-                self.position = self.move()
-                return 0
+                if self.direction in intersection.traficlight:
+                    # change the street (or not)
+                    self.change_street(intersection)
+                    # move in that direction
+                    self.position = self.move()
+                    return 0
+                else:
+                    self.speed = 0
             else:
                 # verify if the car will pass by an intersection
                 if is_between(intersection.position, self.position, new_position):
                     # go to the intersection
-                    self.position = intersection.position
+                    new_position = intersection.position
                     # increases the distance
                     self.distance += abs(self.position[0] - intersection.position[0] + self.position[1] - intersection.position[1])
                     return 0
@@ -110,6 +113,7 @@ class Car:
     def update(self, simulation):
         self.check_move(simulation)
         self.draw(simulation.screen)
+        print("c " + str(self.position))
         #simulation.send_message(self.export_data(simulation))
 
     def draw(self, screen):

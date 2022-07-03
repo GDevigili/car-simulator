@@ -74,7 +74,6 @@ class Street:
     def update(self, simulation):
         self.generate_cars(simulation)
         self.draw(simulation.screen)
-        print(self.current_car_number)
 
     def draw(self, screen):
         pygame.draw.line(screen, (255, 0, 0), self.point1, self.point2)

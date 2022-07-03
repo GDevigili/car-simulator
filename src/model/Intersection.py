@@ -6,6 +6,7 @@ class Intersection:
         self.position = position
         self.vstreet = vstreet
         self.hstreet = hstreet
+        self.traficlight = [(0,1), (0,-1)]
 
     def update(self, simulation) -> None:
         self.draw(simulation.screen)

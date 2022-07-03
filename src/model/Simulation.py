@@ -25,7 +25,7 @@ class Simulation:
         self.duration = random.randint(MIN_EXECUTION_TIME, MAX_EXECUTION_TIME)
 
         # generate a list of streets
-        self.streets = [Street() for i in range(nbr_streets)]
+        self.streets = [Street(1) for i in range(nbr_streets)]
 
         # calculate the intersections
         for i in range(len(self.streets)):
@@ -36,12 +36,13 @@ class Simulation:
                 # if there is an intersection
                 if intersection:
                     # add the intersection to both streets
+                    print(intersection.position)
                     self.streets[i].intersections.append(intersection)
                     self.streets[j].intersections.append(intersection)
 
         # remove streets without intersections
         for street in self.streets:
-            if street.intersections == []:
+            if street.intersections == []: 
                 self.streets.remove(street)
                 del street
 
