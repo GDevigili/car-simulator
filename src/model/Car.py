@@ -37,7 +37,7 @@ class Car:
                 # change the direction to the new one
                 self.direction = new_direction
                 # decreases the amount of cars in the current street
-                self.current_street.current_car_number -= 1
+                self.current_street.current_car_number[new_direction] -= 1
                 # if the current street is horizontal
                 if self.current_street.orientation == 'h':
                     # the new street will be vertical
@@ -47,7 +47,7 @@ class Car:
                     # the new street will be horizontal
                     self.current_street = intersection.hstreet
                 # increases the amount of cars in the new street
-                self.current_street.current_car_number += 1
+                self.current_street.current_car_number[new_direction] += 1
         # set a new speed
         self.set_speed()
 
@@ -67,7 +67,7 @@ class Car:
             # remove the car from the simulation
             simulation.cars.remove(self)
             # decreases the amount of cars in the current street
-            self.current_street.current_car_number -= 1
+            self.current_street.current_car_number[self.direction] -= 1
             # delete the object
             del self
             # return False to stop the function

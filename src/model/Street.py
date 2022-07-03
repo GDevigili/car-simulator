@@ -14,7 +14,7 @@ class Street:
     def __init__(self, max_car_capacity = None):
         self.id = str(uuid.uuid4())
         if max_car_capacity == None:
-            self.max_car_capacity = randint(1, 20)
+            self.max_car_capacity = randint(1, 5)
         else:
             self.max_car_capacity = max_car_capacity
         self.current_car_number = {(0, 1): 0, (0, -1): 0, (1, 0): 0, (-1, 0): 0}
@@ -88,6 +88,7 @@ class Street:
     def update(self, simulation):
         self.generate_cars(simulation)
         self.draw(simulation.screen)
+        print(self.current_car_number)
 
     def draw(self, screen):
         pygame.draw.line(screen, (255, 0, 0), self.point1, self.point2)
