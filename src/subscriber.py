@@ -11,7 +11,7 @@ else:
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
-result = channel.queue_declare(queue='', exclusive=True)
+result = channel.queue_declare(queue='my_channel', exclusive=True)
 queue_name = result.method.queue
 
 channel.queue_bind(exchange='logs', queue=queue_name)
