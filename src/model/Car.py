@@ -69,7 +69,7 @@ class Car:
         # verify if the car is not in a street
         if not is_between(new_position, self.current_street.point1, self.current_street.point2):
             # remove the car from the simulation
-            simulation.cars.remove(self)
+            simulation.remove_car(self)
             # decreases the amount of cars in the current street
             self.current_street.current_car_number[self.direction] -= 1
             # delete the object

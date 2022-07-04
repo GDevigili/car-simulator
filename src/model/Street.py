@@ -69,7 +69,8 @@ class Street:
 
                 if self.current_car_number[direction] < self.max_car_capacity:
                     self.current_car_number[direction] += 1
-                    simulation.cars.append(Car(position = position, direction = direction, current_street = self))
+                    simulation.insert_car(Car(position, direction, self))
+                    # simulation.cars.append(Car(position = position, direction = direction, current_street = self))
 
     def update(self, simulation):
         self.generate_cars(simulation)

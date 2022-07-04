@@ -2,6 +2,7 @@ import time
 import random
 import json
 import uuid
+from multiprocessing import Process
 
 import pygame
 #import pika
@@ -13,6 +14,8 @@ from model.Car import Car
 from GLOBAL_VARIABLES import *
 from utils import get_intersection
 
+def parallel_call_update_cars(simulation, car_list):
+    simulation.update_cars(car_list)
 
 class Simulation:
     """Simulates a scenario of the traffic of a city"""
@@ -59,6 +62,10 @@ class Simulation:
         # each intersection is counted twice
         return nbr_intersections/2
 
+    def update_cars(self, car_list):
+        for car in car_list:
+            car.update(self)
+
     #def start_connection(self):
     #    self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     #    self.channel = self.connection.channel()
@@ -92,8 +99,15 @@ class Simulation:
             "tick_counter": self.tick_counter,
         })
 
-    def distribute_cars(self):
-        pass
+    def insert_car(self, car):
+        smallest_list = min(self.car_list, key=len)
+        smallest_list.append(car)
+
+    def remove_car(self, car):
+        for lst in self.car_list:
+            if car in lst:
+                lst.remove(car)
+                break
 
     def run(self):
         print(f"running simulation\n  simulation_id {self.id}\n  expected duration: {self.duration} seconds")
@@ -126,9 +140,19 @@ class Simulation:
             # update the elements
             for street in self.streets:
                 street.update(self)
-                
-            for car in self.cars: 
-                car.update(self)
+            
+            # run parallel processesfor the car updates
+            processes = []
+            for lst in self.car_list: 
+                # p = Process(target=parallel_call_update_cars, args=(self, lst))
+                # p.start()
+                # processes.append(p)
+                parallel_call_update_cars(self, lst)
+
+            for p in processes:
+                p.join()
+
+            # print(self.car_list)
 
             # update the display
             pygame.display.update()
@@ -147,6 +171,7 @@ class Simulation:
 
             # control simulation speed
             pygame.time.Clock().tick(FPS)
+
 
         # close the connection
         #self.close_connection()
