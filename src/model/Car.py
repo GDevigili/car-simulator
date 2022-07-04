@@ -79,15 +79,16 @@ class Car:
 
         for intersection in self.current_street.intersections:
             # verify if the car is in an intersection
+
+            # open or close traffic_light randomly with equal chances of it being opened or closed
+            status = random.choices([True, False], weights = [1, 2], k = 4)
+            # update traffic_lights
+            intersection.traffic_light[(0,1)] = status[0]
+            intersection.traffic_light[(0,-1)] = status[1]
+            intersection.traffic_light[(1,0)] = status[2]
+            intersection.traffic_light[(-1,0)] = status[3]
+
             if intersection.position == self.position:
-                # open or close traffic_light randomly with equal chances of it being opened or closed
-                status = random.choices([True, False], k = 4)
-                # update traffic_lights
-                intersection.traffic_light[(0,1)] = status[0]
-                intersection.traffic_light[(0,-1)] = status[1]
-                intersection.traffic_light[(1,0)] = status[2]
-                intersection.traffic_light[(-1,0)] = status[3]
-                
                 if intersection.traffic_light[self.direction]:
                 # change the street (or not)
                     self.change_street(intersection)
