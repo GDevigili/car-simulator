@@ -19,6 +19,7 @@ class Car:
         self.position = position
         self.direction = direction
         self.current_street = current_street
+        self.stopped = False
         self.distance = 0
 
     def set_speed(self) -> None:
@@ -51,6 +52,7 @@ class Car:
                 # increase the number of cars in the new street
                 self.current_street.current_car_number[self.direction] += 1
 
+        self.position = self.move()
         self.set_speed()
 
     def move(self) -> None:
@@ -84,7 +86,7 @@ class Car:
                     # move in that direction
                     return 0
                 else:
-                    self.speed = 0
+                    self.stopped = True
                     return 0 
             else:
                 # verify if the car will pass by an intersection
@@ -113,6 +115,8 @@ class Car:
     def update(self, simulation):
         self.check_move(simulation)
         self.draw(simulation.screen)
+        if self.stopped:
+            self.speed = 0
         #simulation.send_message(self.export_data(simulation))
 
     def draw(self, screen):
