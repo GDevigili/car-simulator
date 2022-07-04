@@ -80,13 +80,21 @@ class Car:
         for intersection in self.current_street.intersections:
             # verify if the car is in an intersection
             if intersection.position == self.position:
-                if self.direction in intersection.trafficlight:
-                    # change the street (or not)
+                # SOLUÇÃO FEIA ADIANTE!
+                status = random.choices([True, False], k = 4)
+                intersection.traffic_light[(0,1)] = status[0]
+                intersection.traffic_light[(0,-1)] = status[1]
+                intersection.traffic_light[(1,0)] = status[2]
+                intersection.traffic_light[(-1,0)] = status[3]
+                
+                if intersection.traffic_light[self.direction]:
+                # change the street (or not)
                     self.change_street(intersection)
-                    # move in that direction
+                # move in that direction
+                    self.position = self.move()
                     return 0
                 else:
-                    self.stopped = True
+                    self.speed = 0
                     return 0 
             else:
                 # verify if the car will pass by an intersection
@@ -115,8 +123,6 @@ class Car:
     def update(self, simulation):
         self.check_move(simulation)
         self.draw(simulation.screen)
-        if self.stopped:
-            self.speed = 0
         #simulation.send_message(self.export_data(simulation))
 
     def draw(self, screen):
