@@ -14,10 +14,11 @@ if __name__ == '__main__':
 
     while(running):
         try:
-            simulation = Process(target=Simulation(n_processes=n_processes, nbr_streets=30).run())
-            simulation.start()
-            simulation.join()
-        except KeyboardInterrupt:
+            #simulation = Process(target=Simulation(n_processes=n_processes, nbr_streets=30).run())
+            #simulation.start()
+            #simulation.join()
+            Simulation(n_processes=n_processes, nbr_streets=30).run()        
+        except KeyboardInterrupt:    
             running = False
             print('\nSimulation stopped')
             break
