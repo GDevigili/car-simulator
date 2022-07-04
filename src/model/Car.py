@@ -80,12 +80,12 @@ class Car:
         for intersection in self.current_street.intersections:
             # verify if the car is in an intersection
             if intersection.position == self.position:
-                if self.direction in intersection.trafficlight:
+                # if self.direction in intersection.trafficlight:
                     # change the street (or not)
                     self.change_street(intersection)
                     # move in that direction
                     return 0
-                else:
+                # else:
                     self.stopped = True
                     return 0 
             else:
@@ -115,8 +115,8 @@ class Car:
     def update(self, simulation):
         self.check_move(simulation)
         self.draw(simulation.screen)
-        if self.stopped:
-            self.speed = 0
+        # if self.stopped:
+        #     self.speed = 0
         #simulation.send_message(self.export_data(simulation))
 
     def draw(self, screen):
