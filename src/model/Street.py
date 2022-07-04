@@ -1,4 +1,3 @@
-import uuid
 import pygame
 import random
 import uuid
