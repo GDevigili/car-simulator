@@ -12,7 +12,13 @@ class Intersection:
         self.draw(simulation.screen)
 
     def draw(self, screen) -> None:
-        pygame.draw.circle(screen, (0, 255, 0), self.position, 5)
+        for direction in self.traffic_light:
+            position = (self.position[0] - 6*direction[0], self.position[1] - 6*direction[1])
+            if self.traffic_light[direction]:
+                pygame.draw.circle(screen, (0, 255, 0), position, 2)
+            else:
+                pygame.draw.circle(screen, (255, 0, 0), position, 2)
+
 
     def __str__(self) -> str:
         return f'Intersection: {self.position}, {self.vstreet}, {self.hstreet}'
