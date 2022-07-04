@@ -80,7 +80,7 @@ class Car:
         for intersection in self.current_street.intersections:
             # verify if the car is in an intersection
             if intersection.position == self.position:
-                if self.direction in intersection.traficlight:
+                if self.direction in intersection.trafficlight:
                     # change the street (or not)
                     self.change_street(intersection)
                     # move in that direction
