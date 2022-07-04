@@ -17,15 +17,16 @@ from utils import get_intersection
 class Simulation:
     """Simulates a scenario of the traffic of a city"""
 
-    def __init__(self, nbr_streets = 20) -> None:
+    def __init__(self, n_processes = 10, nbr_streets = 20) -> None:
         # set id
         self.id = str(uuid.uuid4())
+        self.n_processes = n_processes
 
         # randomize the max_duration
         self.duration = random.randint(MIN_EXECUTION_TIME, MAX_EXECUTION_TIME)
 
         # generate a list of streets
-        self.streets = [Street(1) for i in range(nbr_streets)]
+        self.streets = [Street() for i in range(nbr_streets)]
 
         # calculate the intersections
         for i in range(len(self.streets)):
@@ -36,7 +37,6 @@ class Simulation:
                 # if there is an intersection
                 if intersection:
                     # add the intersection to both streets
-                    print(intersection.position)
                     self.streets[i].intersections.append(intersection)
                     self.streets[j].intersections.append(intersection)
 
@@ -46,8 +46,10 @@ class Simulation:
                 self.streets.remove(street)
                 del street
 
-        # define an empty car list
         self.cars = []
+
+        # define a list of empty lists
+        self.car_list = [[] for i in range(self.n_processes)]
 
     def get_intersection_nbr(self):
         nbr_intersections = 0
@@ -90,7 +92,12 @@ class Simulation:
             "tick_counter": self.tick_counter,
         })
 
+    def distribute_cars(self):
+        pass
+
     def run(self):
+        print(f"running simulation\n  simulation_id {self.id}\n  expected duration: {self.duration} seconds")
+
         # calculate execution time
         self.start_time = time.time()
 

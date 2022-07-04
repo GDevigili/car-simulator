@@ -1,14 +1,23 @@
 import sys
 sys.path.append('..')
 from threading import Thread
+from multiprocessing import Process
 
 from model.Simulation import Simulation
+from GLOBAL_VARIABLES import n_processes
 import random
 
 
 if __name__ == '__main__':
     random.seed(10) # seed: 10
-    while(True):
-        x = Thread(target=Simulation(30).run())
-        # sim = Simulation(30)
-        # sim.run()
+    running = True
+
+    while(running):
+        try:
+            simulation = Process(target=Simulation(n_processes=n_processes, nbr_streets=30).run())
+            simulation.start()
+            simulation.join()
+        except KeyboardInterrupt:
+            running = False
+            print('\nSimulation stopped')
+            break
