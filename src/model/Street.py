@@ -1,4 +1,3 @@
-import uuid
 import pygame
 import random
 import uuid
@@ -75,6 +74,9 @@ class Street:
     def update(self, simulation):
         self.generate_cars(simulation)
         self.draw(simulation.screen)
+        for intersection in self.intersections:
+            intersection.draw(simulation.screen)
+
 
     def draw(self, screen):
         pygame.draw.line(screen, (255, 0, 0), self.point1, self.point2)
