@@ -7,7 +7,7 @@ class Intersection:
         self.vstreet = vstreet
         self.hstreet = hstreet
         self.traffic_light = {(0, 1): True, (0, -1): True, (1, 0): True, (-1, 0): True} #True = open
-
+        
     def update(self, simulation) -> None:
         self.draw(simulation.screen)
 

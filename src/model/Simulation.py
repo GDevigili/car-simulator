@@ -29,7 +29,7 @@ class Simulation:
         self.duration = random.randint(MIN_EXECUTION_TIME, MAX_EXECUTION_TIME)
 
         # generate a list of streets
-        self.streets = [Street() for i in range(nbr_streets)]
+        self.streets = [Street(1) for i in range(nbr_streets)]
 
         # calculate the intersections
         for i in range(len(self.streets)):
