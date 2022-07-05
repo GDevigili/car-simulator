@@ -17,6 +17,9 @@ if __name__ == '__main__':
             simulation = Process(target=Simulation(n_processes=n_processes, nbr_streets=30).run())
             simulation.start()
             simulation.join()
+
+            del simulation
+            # Simulation(n_processes=n_processes, nbr_streets=30).run()
         except KeyboardInterrupt:
             running = False
             print('\nSimulation stopped')
