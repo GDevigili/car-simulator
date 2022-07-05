@@ -3,7 +3,7 @@ def scenario_nbr():
     return "SELECT COUNT(*) AS Qtd_Cenarios FROM scenario"
 
 def total_car_nbr():
-    return "SELECT COUNT(DISTINCT(car_state.car_id)) AS Total_de_Carros FROM car_state GROUP BY car_state.car_id"
+    return "SELECT COUNT(DISTINCT(car_state.car_id)) AS Total_de_Carros FROM car_state"
 
 def total_street_nbr():
     return "SELECT SUM(scenario.nbr_streets) AS Qtd_Ruas FROM scenario"
