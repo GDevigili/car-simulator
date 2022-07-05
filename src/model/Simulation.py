@@ -167,8 +167,9 @@ class Simulation:
                 if event.type == pygame.QUIT:
                     running = False
 
-            self.send_message(self.time_message())
             self.tick_counter += 1
+            self.send_message(self.time_message())
+
 
             # control simulation speed
             pygame.time.Clock().tick(FPS)
