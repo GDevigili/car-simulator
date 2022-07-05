@@ -12,13 +12,11 @@ pip install -r requirements.txt
 
 ### 0.2. Database Creation
 
-```bash 
+Using a mysql root
+```bash
+mysql -u root -p
 ```
-
-### 0.3. Database user creation
-
-```bash 
-```
+execute the SQL script in database/db_create.sql
 
 ### Running the Simulation
 
@@ -37,4 +35,9 @@ python3 src/subscriber.py
 And then serve the consumer with the publisher:
 ```
 python3 src/main.py
+```
+
+The interface to visualize the data can be runned with
+```bash
+python3 src/client.py
 ```
