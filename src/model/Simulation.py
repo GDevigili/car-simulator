@@ -5,7 +5,7 @@ import uuid
 from multiprocessing import Process
 
 import pygame
-#import pika
+import pika
 
 from model.Intersection import Intersection
 from model.Street import Street
@@ -43,7 +43,6 @@ class Simulation:
                     self.streets[i].intersections.append(intersection)
                     self.streets[j].intersections.append(intersection)
 
-        # remove streets without intersections
         for street in self.streets:
             if street.intersections == []: 
                 self.streets.remove(street)
@@ -56,7 +55,7 @@ class Simulation:
 
     def get_intersection_nbr(self):
         nbr_intersections = 0
-        # iterate over the streets
+
         for street in self.streets:
             nbr_intersections += len(street.intersections)
         # each intersection is counted twice
@@ -66,21 +65,21 @@ class Simulation:
         for car in car_list:
             car.update(self)
 
-    #def start_connection(self):
-    #    self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-    #    self.channel = self.connection.channel()
+    def start_connection(self):
+       self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+       self.channel = self.connection.channel()
 
-    #    self.channel.exchange_declare(exchange='logs', exchange_type='fanout')
+       self.channel.exchange_declare(exchange='logs', exchange_type='fanout')
 
-    #    self.send_message("Connection successfully established")
+       self.send_message("Connection successfully established")
 
-    #def close_connection(self):
-    #    self.send_message("Closing connection")
-    #    self.connection.close()
+    def close_connection(self):
+       self.send_message("Closing connection")
+       self.connection.close()
 
-    #def send_message(self, message):
-    #    self.channel.basic_publish(exchange='logs', routing_key='', body=message)
-    #    print(" [x] Sent %r" % message)
+    def send_message(self, message):
+       self.channel.basic_publish(exchange='logs', routing_key='', body=message)
+       print(" [x] Sent %r" % message)
 
     def export_data(self):
         return str({
@@ -123,10 +122,10 @@ class Simulation:
         self.screen = pygame.display.set_mode((1000, 1000))
 
         # initialize a connection with the subscriber
-        #self.start_connection()
+        self.start_connection()
 
         # send a message to the subscriber
-        #self.send_message(self.export_data())
+        self.send_message(self.export_data())
 
         # set a tick counter
         self.tick_counter = 0
@@ -144,15 +143,17 @@ class Simulation:
             # run parallel processesfor the car updates
             processes = []
             for lst in self.car_list: 
-                # p = Process(target=parallel_call_update_cars, args=(self, lst))
-                # p.start()
-                # processes.append(p)
+                p = Process(target=parallel_call_update_cars, args=(self, lst))
+                processes.append(p)
                 parallel_call_update_cars(self, lst)
+
+            for p in processes:
+                p.start()
+
 
             for p in processes:
                 p.join()
 
-            # print(self.car_list)
 
             # update the display
             pygame.display.update()
@@ -166,8 +167,8 @@ class Simulation:
                 if event.type == pygame.QUIT:
                     running = False
 
+            self.send_message(self.time_message())
             self.tick_counter += 1
-            #self.send_message(self.time_message())
 
             # control simulation speed
             pygame.time.Clock().tick(FPS)
