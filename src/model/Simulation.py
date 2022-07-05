@@ -143,8 +143,8 @@ class Simulation:
             # run parallel processesfor the car updates
             processes = []
             for lst in self.car_list: 
-                p = Process(target=parallel_call_update_cars, args=(self, lst))
-                processes.append(p)
+                # p = Process(target=parallel_call_update_cars, args=(self, lst))
+                # processes.append(p)
                 parallel_call_update_cars(self, lst)
 
             for p in processes:
