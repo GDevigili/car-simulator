@@ -25,6 +25,9 @@ class Street:
         else: # self.orientation == 'v'
             self.current_car_number = {(0, 1): 0, (0, -1): 0}
 
+
+        self.queue = {(0, 1): [], (0, -1): [], (1, 0): [], (-1, 0): []} 
+
         # empty list for intersections
         self.intersections = []
 
@@ -74,6 +77,11 @@ class Street:
     def update(self, simulation):
         self.generate_cars(simulation)
         self.draw(simulation.screen)
+        for direction in self.current_car_number:
+            if len(self.queue[direction]) > 0 and self.current_car_number[direction] < self.max_car_capacity:
+                self.queue[direction][0].position = self.queue[direction][0].move()
+                self.queue[direction][0].set_speed()
+                self.queue[direction].pop(0)
         for intersection in self.intersections:
             intersection.draw(simulation.screen)
 

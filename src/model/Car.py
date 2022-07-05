@@ -51,9 +51,13 @@ class Car:
 
                 # increase the number of cars in the new street
                 self.current_street.current_car_number[self.direction] += 1
-
-        self.position = self.move()
-        self.set_speed()
+                self.position = self.move()
+                self.set_speed()            
+            
+            else:
+                if self not in new_street.queue[new_direction]:
+                    new_street.queue[new_direction].append(self)
+                    self.speed = 0
 
     def move(self) -> None:
         # add the direction * speed to the current position
