@@ -5,7 +5,7 @@ import database.db_access as db
 db_connection = db.connect()
 if db_connection:
     print(" [x] Connection to the database successful")
-    db.erase_database(db_connection)
+    # db.erase_database(db_connection)
 else:
     print(" [x] Error connecting to the database")
 

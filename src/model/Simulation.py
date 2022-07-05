@@ -175,4 +175,4 @@ class Simulation:
 
 
         # close the connection
-        #self.close_connection()
+        self.close_connection()
