@@ -79,6 +79,17 @@ class Street:
         self.draw(simulation.screen)
         for direction in self.current_car_number:
             if len(self.queue[direction]) > 0 and self.current_car_number[direction] < self.max_car_capacity:
+
+                # decrease the number of cars in the old street
+                self.queue[direction][0].current_street.current_car_number[self.queue[direction][0].direction] -= 1
+
+                # update street and direction
+                self.queue[direction][0].current_street = self
+                self.queue[direction][0].direction = direction
+
+                # increase the number of cars in the new street
+                self.queue[direction][0].current_street.current_car_number[self.queue[direction][0].direction] += 1
+
                 self.queue[direction][0].position = self.queue[direction][0].move()
                 self.queue[direction][0].set_speed()
                 self.queue[direction].pop(0)
